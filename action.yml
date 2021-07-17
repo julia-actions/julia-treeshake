@@ -9,7 +9,7 @@ branding:
 inputs:
   test_code:
     description: 'Code to run while evaluating dependency usage'
-    default: 'import Pkg; Pkg.test(julia_args=["--code-coverage=all"])'
+    default: 'import Pkg; Pkg.test(julia_args=["--code-coverage=user"])'
     required: false
   prefix:
     description: 'Value inserted in front of the julia command, e.g. for running xvfb-run julia [...]'
@@ -25,7 +25,7 @@ runs:
   steps:
     - run: |
         # The Julia command that will be executed
-        julia_cmd=( julia --code-coverage=all --color=yes --project=${{ inputs.project }} -e '${{ inputs.test_code }}' )
+        julia_cmd=( julia --code-coverage=user --color=yes --project=${{ inputs.project }} -e '${{ inputs.test_code }}' )
 
         # Add the prefix in front of the command if there is one
         prefix="${{ inputs.prefix }}"
