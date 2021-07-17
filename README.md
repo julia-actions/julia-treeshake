@@ -8,7 +8,7 @@ Run package tests or a given script to see if any project dependencies are unuse
 the coverage of the package tests, or provided test script. Also consider that the setup of the CI
 machine may impact coverage, with platform-guarded code usage hiding real code usage on other platforms.
 
-2) Tests will be run with `--code-coverage=all` which may slow down execution significantly.
+2) Tests will be run with `--code-coverage=user` which may slow down execution significantly.
 
 3) If a dependency is only `using/import`-ed but has an `__init__()`, it will be marked as used.
 
