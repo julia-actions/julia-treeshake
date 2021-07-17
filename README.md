@@ -2,6 +2,12 @@
 
 Run package tests or a given script to see if any project dependencies are unused.
 
+## Note
+
+The information gathered by this action should be used with caution. The check is only as good as
+the coverage of the package tests, or provided test script. Also consider that the setup of the CI
+machine may impact coverage, with platform-guarded code usage hiding real code usage on other platforms.
+
 ## Usage
 
 Julia needs to be installed before this action can run. This can easily be achieved with the [setup-julia](https://github.com/marketplace/actions/setup-julia-environment) action.

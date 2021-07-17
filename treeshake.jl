@@ -30,6 +30,12 @@ for dep in deps
 end
 
 if !isempty(deps)
-    @error "Some direct dependencies were not used by test code" deps
+    @error "Some direct dependencies were not used by the test code" deps
+
+    @warn """This information should be used with caution.
+    The check is only _at best_ as good as the coverage of the package tests, or provided test script.
+    Also consider that the setup of the CI machine may impact coverage, with platform-guarded code
+    usage hiding real code usage on other platforms.
+    """
     exit(1)
 end
