@@ -25,7 +25,7 @@ direct_deps = Pkg.Types.Context().env.project.deps
 unused_direct_deps = String[]
 for dep in direct_deps
     pkgname = first(dep)
-    if !haskey(found_dict, pkgname) || found_dict[pkgname]
+    if haskey(found_dict, pkgname) && !found_dict[pkgname]
         push!(unused_direct_deps, pkgname)
     end
 end
@@ -33,7 +33,7 @@ end
 indirect_deps = [last(kv).name for kv in Pkg.Types.Context().env.manifest.deps]
 unused_indirect_deps = String[]
 for pkgname in indirect_deps
-    if !haskey(found_dict, pkgname) || found_dict[pkgname]
+    if haskey(found_dict, pkgname) && !found_dict[pkgname]
         push!(unused_indirect_deps, pkgname)
     end
 end
@@ -42,7 +42,8 @@ if length(unused_indirect_deps) == length(indirect_deps)
     @warn "No coverage files detected. Are you sure you ran code with at least coverage in `user` mode?"
 end
 
-@warn """This information should be used with some caution.
+@warn """Treeshaking Dependencies.
+This information should be used with some caution:
 - The check is only _at best_ as good as the coverage of the package tests, or provided test script.
 - Consider that the setup of the CI machine may impact coverage, with platform-guarded code usage hiding real code usage on other platforms.
 - Currently any `__init__()` calls within packages will mark them as used, even if they are only imported.
