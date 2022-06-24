@@ -42,6 +42,8 @@ end
 The check is only _at best_ as good as the coverage of the package tests, or provided test script.
 Also consider that the setup of the CI machine may impact coverage, with platform-guarded code
 usage hiding real code usage on other platforms.
+
+Further, currently any `__init__()` calls within packages will mark them as used, even if they are only imported.
 """
 
 if isempty(unused_direct_deps) && isempty(unused_indirect_deps)
