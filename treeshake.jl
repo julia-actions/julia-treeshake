@@ -54,4 +54,5 @@ else
     if !isempty(unused_indirect_deps)
         @info """$(length(unused_indirect_deps)) indirect dependencies were not used by the test code: \n  $(join(sort(unused_indirect_deps), "\n  "))"""
     end
+    exit(1)
 end
