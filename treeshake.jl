@@ -29,32 +29,30 @@ for dep in direct_deps
         push!(unused_direct_deps, pkgname)
     end
 end
-    
+
 indirect_deps = [last(kv).name for kv in Pkg.Types.Context().env.manifest.deps]
 unused_indirect_deps = String[]
-for dep in indirect_deps
-    pkgname = first(dep)
+for pkgname in indirect_deps
     if !haskey(found_dict, pkgname) || found_dict[pkgname]
         push!(unused_indirect_deps, pkgname)
     end
 end
-    
+
 @warn """This information should be used with caution.
 The check is only _at best_ as good as the coverage of the package tests, or provided test script.
 Also consider that the setup of the CI machine may impact coverage, with platform-guarded code
 usage hiding real code usage on other platforms.
 """
 
-if isempty(direct_deps) && isempty(indirect_deps)
+if isempty(unused_direct_deps) && isempty(unused_indirect_deps)
     @info "All direct and indirect dependencies were used"
-    exit(0)
+else
+    if !isempty(unused_direct_deps)
+
+        @info """Some direct dependencies were not used by the test code: \n  $(join(sort(unused_direct_deps), "\n  "))"""
+    end
+
+    if !isempty(unused_indirect_deps)
+        @info """Some indirect dependencies were not used by the test code: \n  $(join(sort(unused_indirect_deps), "\n  "))"""
+    end
 end
-if !isempty(direct_deps)
-    @info "Some direct dependencies were not used by the test code" direct_deps
-end
-            
-if !isempty(indirect_deps)
-    @info "Some indirect dependencies were not used by the test code" indirect_deps
-end
-    
-exit(1)
