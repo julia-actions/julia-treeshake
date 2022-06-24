@@ -42,22 +42,20 @@ if length(unused_indirect_deps) == length(indirect_deps)
     @warn "No coverage files detected. Are you sure you ran code with at least coverage in `user` mode?"
 end
 
-@warn """This information should be used with caution.
-The check is only _at best_ as good as the coverage of the package tests, or provided test script.
-Also consider that the setup of the CI machine may impact coverage, with platform-guarded code
-usage hiding real code usage on other platforms.
-
-Further, currently any `__init__()` calls within packages will mark them as used, even if they are only imported.
+@warn """This information should be used with some caution.
+- The check is only _at best_ as good as the coverage of the package tests, or provided test script.
+- Consider that the setup of the CI machine may impact coverage, with platform-guarded code usage hiding real code usage on other platforms.
+- Currently any `__init__()` calls within packages will mark them as used, even if they are only imported.
 """
 
 if isempty(unused_direct_deps) && isempty(unused_indirect_deps)
     @info "All $(length(direct_deps)) direct and $(length(indirect_deps)) indirect dependencies were used"
 else
     if !isempty(unused_direct_deps)
-        @info """$(length(unused_direct_deps)) direct dependencies were not used by the test code: \n  $(join(sort(unused_direct_deps), "\n  "))"""
+        @info """$(length(unused_direct_deps)) of $(length(direct_deps)) direct dependencies were not used by the test code: \n  $(join(sort(unused_direct_deps), "\n  "))"""
     end
     if !isempty(unused_indirect_deps)
-        @info """$(length(unused_indirect_deps)) indirect dependencies were not used by the test code: \n  $(join(sort(unused_indirect_deps), "\n  "))"""
+        @info """$(length(unused_indirect_deps)) of $(length(indirect_deps)) indirect dependencies were not used by the test code: \n  $(join(sort(unused_indirect_deps), "\n  "))"""
     end
     exit(1)
 end
