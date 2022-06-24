@@ -38,6 +38,10 @@ for pkgname in indirect_deps
     end
 end
 
+if length(unused_indirect_deps) == length(indirect_deps)
+    @warn "No coverage files detected. Are you sure you ran code with at least coverage in `user` mode?"
+end
+
 @warn """This information should be used with caution.
 The check is only _at best_ as good as the coverage of the package tests, or provided test script.
 Also consider that the setup of the CI machine may impact coverage, with platform-guarded code
