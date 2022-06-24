@@ -45,12 +45,11 @@ usage hiding real code usage on other platforms.
 """
 
 if isempty(unused_direct_deps) && isempty(unused_indirect_deps)
-    @info "All direct and indirect dependencies were used"
+    @info "All $(length(direct_deps)) direct and $(length(indirect_deps)) indirect dependencies were used"
 else
     if !isempty(unused_direct_deps)
         @info """$(length(unused_direct_deps)) direct dependencies were not used by the test code: \n  $(join(sort(unused_direct_deps), "\n  "))"""
     end
-
     if !isempty(unused_indirect_deps)
         @info """$(length(unused_indirect_deps)) indirect dependencies were not used by the test code: \n  $(join(sort(unused_indirect_deps), "\n  "))"""
     end
