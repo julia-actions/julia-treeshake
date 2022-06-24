@@ -41,6 +41,14 @@ By default package tests will be run, but a custom script can be provided
           test_code: 'using Foo; Foo.bar()'
 ```
 
+Or if you wanted to run tests in a prior step, like `julia-runtest`:
+```yaml
+      - uses: julia-actions/julia-runtest@v1
+      - uses: julia-actions/julia-treeshake@main
+        with:
+          test_code: 'nothing'
+```
+
 You can add this workflow to your repository by placing it in a file called `treeshake.yml` in the folder `.github/workflows/`. [More info here](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions).
 
 ### Prefixing the Julia command
