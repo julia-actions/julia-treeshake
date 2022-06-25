@@ -19,6 +19,14 @@ inputs:
     description: 'Value passed to the --project flag. The default value is the repository root: "@."'
     default: '@.'
     required: false
+  fail_unused_direct_deps:
+    description: 'Whether to fail the run if unused direct dependencies ar found. Default value: yes'
+    default: 'yes'
+    required: false
+  fail_unused_indirect_deps:
+    description: 'Whether to fail the run if unused direct dependencies ar found. Default value: no'
+    default: 'no'
+    required: false
 
 runs:
   using: 'composite'
@@ -34,6 +42,6 @@ runs:
         # Run the Julia command
         "${julia_cmd[@]}"
       shell: bash
-    - run: julia --color=yes --project=${{ inputs.project }} "$GITHUB_ACTION_PATH"/treeshake.jl
+    - run: julia --color=yes --project=${{ inputs.project }} "$GITHUB_ACTION_PATH"/treeshake.jl --fail_unused_direct=${{ inputs.fail_unused_direct_deps }} --fail_unused_indirect=${{ inputs.fail_unused_indirect_deps }}
       shell: bash
 

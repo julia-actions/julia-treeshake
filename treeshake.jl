@@ -1,5 +1,8 @@
 using Pkg
 
+fail_direct = "--fail_unused_direct=yes" in ARGS
+fail_indirect = "--fail_unused_indirect=yes" in ARGS
+
 function has_cov(pkg_dir)
     for (root, dirs, files) in walkdir(pkg_dir)
         if any(endswith(".cov"), files)
@@ -58,5 +61,6 @@ else
     if !isempty(unused_indirect_deps)
         @info """$(length(unused_indirect_deps)) of $(length(indirect_deps)) indirect dependencies were not used by the test code: \n  $(join(sort(unused_indirect_deps), "\n  "))"""
     end
-    exit(1)
+    fail_direct && !isempty(unused_direct_deps) && exit(1)
+    fail_indirect && !isempty(unused_indirect_deps) && exit(1)
 end
